@@ -25,8 +25,9 @@ jobs:
         echo "Setting up Android SDK..."
         mkdir -p $HOME/android-sdk/cmdline-tools
         wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip
-        unzip -q cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
-        mv \(HOME/android-sdk/cmdline-tools/cmdline-tools\)HOME/android-sdk/cmdline-tools/latest
+        unzip -q cmdline-tools.zip -d temp_tools
+        mv temp_tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
+        rm -rf cmdline-tools.zip temp_tools
         
         # Set Environment Variables
         echo "ANDROID_HOME=\(HOME/android-sdk" >>\)GITHUB_ENV
@@ -35,11 +36,11 @@ jobs:
 
     - name: Accept Android Licenses
       run: |
-        yes | \(HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=\)HOME/android-sdk --licenses || true
+        yes | sdkmanager --licenses || true
 
     - name: Install Build Tools and Platforms
       run: |
-        \(HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=\)HOME/android-sdk "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew

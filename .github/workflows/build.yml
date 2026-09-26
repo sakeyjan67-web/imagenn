@@ -29,18 +29,18 @@ jobs:
         mv android_temp/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
         rm -rf tools.zip android_temp
 
-        # Export paths for this session
-        export ANDROID_HOME=$HOME/android-sdk
-        export PATH=\(PATH:\)ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+        # Define SDK manager path variable
+        SDK_MANAGER="$HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager"
 
         echo "Accepting licenses..."
-        yes | sdkmanager --licenses || true
+        yes | \(SDK_MANAGER --sdk_root=\)HOME/android-sdk --licenses || true
 
         echo "Installing build tools and platforms..."
-        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+        \(SDK_MANAGER --sdk_root=\)HOME/android-sdk "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
         echo "Making gradlew executable..."
         chmod +x gradlew
 
         echo "Building APK..."
+        export ANDROID_HOME=$HOME/android-sdk
         ./gradlew assembleDebug

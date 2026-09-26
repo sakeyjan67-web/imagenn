@@ -1,0 +1,12 @@
+<resources>
+    <style name="Theme.CamTok" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorAccent">#1C1E18</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="android:statusBarColor">#F5F5EF</item>
+        <item name="android:windowBackground">#F5F5EF</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

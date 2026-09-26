@@ -20,27 +20,11 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Android SDK and Build
-      run: |
-        echo "Setting up Android SDK..."
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip
-        unzip -q cmdline-tools.zip -d temp_tools
-        mv temp_tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
-        rm -rf cmdline-tools.zip temp_tools
-        
-        # Path set karo
-        export ANDROID_HOME=$HOME/android-sdk
-        export PATH=\(PATH:\)ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
-        
-        # Licenses accept karo
-        yes | sdkmanager --licenses || true
-        
-        # Tools aur Platforms install karo
-        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
-        
-        # Gradle execute permission
-        chmod +x gradlew
-        
-        # APK Build karo
-        ./gradlew assembleDebug
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2.1.0
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug
